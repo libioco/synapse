@@ -1,17 +1,15 @@
 import { Plugin } from "obsidian";
-import { getAllMarkdownFiles, readFile } from "./utils/fileUtils";
+import { createVaultPayload } from "./core/init";
 
 export default class MyPlugin extends Plugin {
 	async onload() {
 		console.log("Loading Synapse...");
 
 		const vault = this.app.vault;
-		const allMarkdownFiles = getAllMarkdownFiles(vault);
+		const payload = await createVaultPayload(vault);
 
-		for (const file of allMarkdownFiles) {
-			const contents = readFile(vault, file);
-			console.log(`Contents of ${file.name}:`, contents);
-		}
+		// console.log("Payload: ", payload);
+		console.log("Metadata: ", this.app.metadataCache);
 	}
 
 	onunload() {
